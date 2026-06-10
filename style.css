@@ -1,0 +1,587 @@
+/* ==========================================================================
+   KU 학술 발제문 생성기 - style.css
+   ========================================================================== */
+
+/* 1. 외부 한글 및 영문 폰트 불러오기 (Noto Sans KR 적용) */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+
+/* 2. 전역 스타일 초기화 및 CSS 변수 선언 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* [고려대학교 상징 크림슨 색상 설정] */
+  --ku-crimson: #862633;          /* 주 크림슨 색상 */
+  --ku-crimson-hover: #6b1b26;    /* 마우스 호버용 조금 더 어두운 크림슨 */
+  --ku-crimson-light: #fef2f3;    /* 배경 강조용 연한 핑크/크림슨 */
+  --ku-crimson-alpha: rgba(134, 38, 51, 0.1); /* 포커스 링 투명 크림슨 */
+
+  /* 기본 레이아웃 및 텍스트 색상 */
+  --bg-color: #f1f5f9;            /* 전체 배경색 (밝은 회색) */
+  --card-bg: #ffffff;             /* 기본 카드/폼 배경색 (흰색) */
+  --text-main: #1e293b;           /* 주 본문 텍스트 */
+  --text-muted: #64748b;          /* 보조 가이드 텍스트 */
+  --border-color: #cbd5e1;        /* 입력창 테두리 선 */
+  --border-light: #e2e8f0;        /* 옅은 테두리 선 */
+  
+  /* 상태 및 피드백 컬러 */
+  --color-success: #10b981;       /* 완료 및 정상 알림 초록색 */
+  --color-danger: #ef4444;        /* 오류 및 경고 빨간색 */
+
+  /* 그림자 가이드 */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-paper: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+}
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 3. 헤더 디자인 (크림슨 배경 블록 및 호랑이 로고 정렬 구성) */
+header {
+  background-color: var(--ku-crimson);
+  color: #ffffff;
+  padding: 25px 20px;
+  border-bottom: 5px solid #701c27; /* 입체감 부여를 위한 경계선 */
+  box-shadow: 0 4px 15px rgba(134, 38, 51, 0.15);
+}
+
+.header-container {
+  max-width: 1280px;
+  width: 95%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.header-logo {
+  width: 70px;
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25)); /* 로고 그림자 처리 */
+  flex-shrink: 0;
+}
+
+.header-titles {
+  text-align: left;
+}
+
+header h1 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+header .subtitle {
+  font-size: 1.05rem;
+  font-weight: 300;
+  opacity: 0.9;
+  letter-spacing: 0.5px;
+}
+
+/* 헤더 반응형 개별 규칙 추가 */
+@media (max-width: 576px) {
+  .header-container {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  
+  .header-titles {
+    text-align: center;
+  }
+  
+  .header-logo {
+    width: 60px;
+  }
+}
+
+
+/* 4. 메인 2열 그리드 레이아웃 (반응형 대응) */
+.main-wrapper {
+  max-width: 1280px;
+  width: 95%;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr; /* 입력판과 문서 뷰어를 11:9 비율로 분배 */
+  gap: 30px;
+  align-items: start;
+}
+
+/* 5. 카드 디자인 (흰색 배경, 둥근 모서리, 은은한 그림자 적용) */
+.card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-light);
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.card h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ku-crimson);
+  border-left: 4px solid var(--ku-crimson);
+  padding-left: 10px;
+  margin-bottom: 18px;
+}
+
+/* 6. 입력 필드 그룹 및 폼 컨트롤 */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* 가로 전체 병합 클래스 */
+.col-span-full {
+  grid-column: span 2;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.form-group label .required {
+  color: var(--color-danger);
+  margin-left: 2px;
+}
+
+/* 깔끔한 테두리와 충분한 여백을 가진 입력/선택 창 */
+.form-control {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  border: 1.5px solid var(--border-color);
+  border-radius: 8px;
+  background-color: #fafafa;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  border-color: var(--ku-crimson);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px var(--ku-crimson-alpha);
+}
+
+textarea.form-control {
+  min-height: 70px;
+  resize: vertical;
+}
+
+/* 7. 슬라이더(세부 특성 조절) 디자인 */
+.sliders-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 24px;
+}
+
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.slider-title {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.slider-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.slider-val-badge {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--ku-crimson);
+  background-color: var(--ku-crimson-light);
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid rgba(134, 38, 51, 0.2);
+}
+
+/* 크림슨 색상 슬라이더 트랙 커스텀 */
+.slider-input {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-light);
+  outline: none;
+  cursor: pointer;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--ku-crimson);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+  background: var(--ku-crimson-hover);
+}
+
+/* 8. 버튼 스타일 디자인 (고대 크림슨 색상 적용) */
+.btn-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+/* 메인 크림슨 생성 버튼 */
+.btn-crimson {
+  background-color: var(--ku-crimson);
+  color: #ffffff;
+  font-size: 1.05rem;
+  padding: 14px 28px;
+  box-shadow: 0 4px 10px rgba(134, 38, 51, 0.15);
+}
+
+.btn-crimson:hover {
+  background-color: var(--ku-crimson-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(134, 38, 51, 0.25);
+}
+
+.btn-crimson:active {
+  transform: translateY(1px);
+}
+
+/* 보조 라인형 버튼 */
+.btn-outline {
+  background-color: transparent;
+  border: 1.5px solid var(--border-color);
+  color: var(--text-main);
+}
+
+.btn-outline:hover {
+  background-color: #f8fafc;
+  border-color: var(--text-main);
+}
+
+.btn-outline:active {
+  background-color: #f1f5f9;
+}
+
+/* 9. 우측 결과 문서 영역 (실제 종이 문서(A4) 스타일 구성) */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky; /* 스크롤 시 오른쪽에 고정 */
+  top: 30px;
+}
+
+.paper-box {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: var(--shadow-paper);
+  border: 1px solid var(--border-light);
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 종이 상단 장식선 */
+.paper-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: var(--ku-crimson);
+}
+
+.paper-header {
+  padding: 24px 30px 12px 30px;
+  border-bottom: 1px dashed var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.paper-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ku-crimson);
+}
+
+.paper-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* 발제문 본문 인쇄 레이아웃 */
+.paper-body {
+  padding: 30px;
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 500px;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: #27272a;
+}
+
+.paper-body p {
+  margin-bottom: 16px;
+  text-indent: 10px; /* 문단 첫줄 들여쓰기로 논문 스타일 표현 */
+  text-align: justify; /* 양끝 정렬로 고급스러운 줄글 표현 */
+  word-break: keep-all;
+}
+
+.paper-body .placeholder-text {
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 120px;
+  font-size: 0.92rem;
+  text-indent: 0;
+}
+
+/* 종이 하단 액션 툴바 */
+.paper-footer {
+  padding: 16px 30px;
+  background-color: #fafafa;
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-card-small {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-card-small:hover {
+  background: #f1f5f9;
+  border-color: var(--text-main);
+}
+
+/* 10. 저장된 발제문 목록 보관함 디자인 */
+.history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.history-item {
+  background-color: #fafafa;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.history-item:hover {
+  background-color: var(--ku-crimson-light);
+  border-color: rgba(134, 38, 51, 0.2);
+}
+
+.history-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.history-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.history-date {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.btn-delete-history {
+  background: transparent;
+  border: none;
+  color: var(--color-danger);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.btn-delete-history:hover {
+  background-color: rgba(239, 68, 68, 0.08);
+}
+
+.empty-history {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed var(--border-light);
+  border-radius: 8px;
+}
+
+/* 11. 토스트 알림 팝업 */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 40px);
+  background: rgba(30, 41, 59, 0.95);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  font-size: 0.88rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 999;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+}
+
+/* 12. 반응형 디자인 주석 및 스타일 정의 */
+@media (max-width: 992px) {
+  /* 태블릿 및 화면 축소 시 2열 그리드를 1열 수직 정렬 구조로 변경 */
+  .main-wrapper {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .right-panel {
+    position: static; /* sticky 해제 */
+  }
+  
+  header {
+    padding: 30px 16px;
+  }
+  
+  header h1 {
+    font-size: 1.7rem;
+  }
+}
+
+@media (max-width: 576px) {
+  /* 모바일 세로 1열 통합 레이아웃 */
+  .form-grid, .sliders-grid {
+    grid-template-columns: 1fr; /* 입력 필드 및 슬라이더 격자를 전부 1칸 세로로 */
+  }
+  
+  .col-span-full {
+    grid-column: span 1;
+  }
+  
+  .card {
+    padding: 20px;
+  }
+  
+  .paper-body {
+    padding: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .btn-container {
+    flex-direction: column; /* 모바일에서 버튼 위아래 배치 */
+  }
+}

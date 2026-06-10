@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KU 학술 발제문 생성기</title>
+  <!-- 전용 CSS 스타일시트 연결 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 1. 고려대학교 시그니처 배너 헤더 영역 -->
+  <header>
+    <div class="header-container">
+      <img src="ku_tiger.png" alt="고려대학교 호랑이 로고" class="header-logo">
+      <div class="header-titles">
+        <h1>KU 학술 발제문 생성기</h1>
+        <p class="subtitle">고려대학교 학생을 위한 세미나·토론형 글쓰기 도우미</p>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- 2. 메인 화면 구성 그리드 컨테이너 -->
+  <div class="main-wrapper">
+    
+    <!-- 3. 좌측 패널: 정보 입력 및 슬라이더 조절 카드 -->
+    <div class="left-panel">
+      <form id="generator-form" class="card">
+        
+        <!-- [입력 영역]: 도서 정보 및 논증 뼈대 수집 -->
+        <h2>발제 텍스트 정보 입력</h2>
+        <div class="form-grid">
+          
+          <!-- 도서명 또는 논문명 (필수) -->
+          <div class="form-group">
+            <label for="book-title">도서명 또는 논문명 <span class="required">*</span></label>
+            <input type="text" id="book-title" class="form-control" placeholder="예: 1984, 국부론" required>
+          </div>
+
+          <!-- 저자명 (필수) -->
+          <div class="form-group">
+            <label for="author-name">저자명 <span class="required">*</span></label>
+            <input type="text" id="author-name" class="form-control" placeholder="예: 조지 오웰, 애덤 스미스" required>
+          </div>
+
+          <!-- 수업명 (선택) -->
+          <div class="form-group">
+            <label for="class-name">수업명</label>
+            <input type="text" id="class-name" class="form-control" placeholder="예: 인문학세미나, 경제학원론">
+          </div>
+
+          <!-- 발제 주제 (필수) -->
+          <div class="form-group">
+            <label for="presentation-topic">발제 주제 <span class="required">*</span></label>
+            <input type="text" id="presentation-topic" class="form-control" placeholder="예: 전체주의의 감시 기제, 시장의 자율성" required>
+          </div>
+
+          <!-- 핵심 개념 3~5개 (필수) -->
+          <div class="form-group col-span-full">
+            <label for="key-concepts">핵심 개념 3~5개 <span class="required">*</span> <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">(쉼표로 구분)</span></label>
+            <input type="text" id="key-concepts" class="form-control" placeholder="예: 언어 통제, 기억 조작, 감시 사회, 인간 자유" required>
+          </div>
+
+          <!-- 핵심 주장 (선택) -->
+          <div class="form-group col-span-full">
+            <label for="text-argument">작품 또는 글의 핵심 주장</label>
+            <input type="text" id="text-argument" class="form-control" placeholder="예: 권력은 인간 사유 자체를 통제하여 저항을 원천 차단하려 한다.">
+          </div>
+
+          <!-- 인상 깊었던 문장 (선택) -->
+          <div class="form-group col-span-full">
+            <label for="quote">인상 깊었던 문장</label>
+            <input type="text" id="quote" class="form-control" placeholder="예: 전쟁은 평화, 자유는 예속, 무식은 힘">
+          </div>
+
+          <!-- 자신의 문제의식 (필수) -->
+          <div class="form-group col-span-full">
+            <label for="critique">자신의 문제의식 <span class="required">*</span></label>
+            <textarea id="critique" class="form-control" placeholder="예: 현대의 알고리즘 감시망이 1984년의 빅브라더보다 은밀하고 강력하게 우리의 자유를 제어하는가?" required></textarea>
+          </div>
+
+          <!-- 토론하고 싶은 쟁점 (선택) -->
+          <div class="form-group col-span-full">
+            <label for="debate-points">토론하고 싶은 쟁점</label>
+            <input type="text" id="debate-points" class="form-control" placeholder="예: 자유의 제한이 안전과 효율을 위해 정당화될 수 있는 범위">
+          </div>
+
+          <!-- 글 유형 선택 -->
+          <div class="form-group">
+            <label for="genre">생성할 글의 유형</label>
+            <select id="genre" class="form-control">
+              <option value="발제문" selected>일반 발제문</option>
+              <option value="서평형 발제문">서평형 발제문</option>
+              <option value="비평형 발제문">비평형 발제문</option>
+              <option value="질문탐구형 발제문">질문탐구형 발제문</option>
+              <option value="토론 중심 발제문">토론 중심 발제문</option>
+            </select>
+          </div>
+
+          <!-- 희망 글자 수 (선택) -->
+          <div class="form-group">
+            <label for="word-count">희망 글자 수</label>
+            <select id="word-count" class="form-control">
+              <option value="400">500자 이하</option>
+              <option value="800" selected>500~1000자</option>
+              <option value="1500">1000자~2000자</option>
+              <option value="2500">2000자 이상</option>
+            </select>
+          </div>
+
+
+        </div>
+
+        <hr style="margin: 28px 0; border: none; border-top: 1px solid var(--border-light);">
+
+        <!-- [슬라이더 영역]: 글의 문체와 밀도를 조절하는 10가지 파라미터 -->
+        <h2>글의 세부 성격 설정 (가중치)</h2>
+        <div class="sliders-grid">
+          
+          <!-- 1. 구체성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">구체성</span>
+              <span id="slider-specificity-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">구체적인 배경과 실제 사례 포함 비중</div>
+            <input type="range" id="slider-specificity" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 2. 분석성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">분석성</span>
+              <span id="slider-analysis-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">구조, 작동 방식, 인과관계 분석 강도</div>
+            <input type="range" id="slider-analysis" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 3. 비판성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">비판성</span>
+              <span id="slider-criticism-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">텍스트의 한계 및 논리적 반론 개입률</div>
+            <input type="range" id="slider-criticism" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 4. 창의성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">창의성</span>
+              <span id="slider-creativity-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">독창적인 현실 적용 및 대안적 연결 비중</div>
+            <input type="range" id="slider-creativity" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 5. 학술성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">학술성</span>
+              <span id="slider-academic-val" class="slider-val-badge">6</span>
+            </div>
+            <div class="slider-desc">학술적 전용 개념어 및 어미 변화 가중치</div>
+            <input type="range" id="slider-academic" class="slider-input" min="1" max="10" value="6">
+          </div>
+
+          <!-- 6. 가독성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">가독성</span>
+              <span id="slider-readability-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">간결한 연결 부사와 자연스러운 단문 위주 구성</div>
+            <input type="range" id="slider-readability" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 7. 성실성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">성실성</span>
+              <span id="slider-sincerity-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">문장 생략을 줄이고 서술 문장 수 대폭 추가</div>
+            <input type="range" id="slider-sincerity" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 8. 객관성 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">객관성</span>
+              <span id="slider-objectivity-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">감정을 줄이고 근거 중심 논증 패턴 사용</div>
+            <input type="range" id="slider-objectivity" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 9. 설득력 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">설득력</span>
+              <span id="slider-persuasion-val" class="slider-val-badge">5</span>
+            </div>
+            <div class="slider-desc">인과관계의 논리적 정합성 및 귀결 강조</div>
+            <input type="range" id="slider-persuasion" class="slider-input" min="1" max="10" value="5">
+          </div>
+
+          <!-- 10. 중요도 반영 -->
+          <div class="slider-group">
+            <div class="slider-header">
+              <span class="slider-title">중요도 반영</span>
+              <span id="slider-salience-val" class="slider-val-badge">6</span>
+            </div>
+            <div class="slider-desc">사용자 본인의 문제의식과 토론 쟁점 중심 배치</div>
+            <input type="range" id="slider-salience" class="slider-input" min="1" max="10" value="6">
+          </div>
+
+        </div>
+
+        <hr style="margin: 28px 0; border: none; border-top: 1px solid var(--border-light);">
+
+        <!-- 발제문 제출 단락 -->
+        <button type="submit" class="btn btn-crimson" id="btn-generate">
+          발제문 생성
+        </button>
+      </form>
+    </div>
+
+    <!-- 4. 우측 패널: A4 규격 결과 출력창 및 보관함 리스트 -->
+    <div class="right-panel">
+      
+      <!-- [결과 출력 영역]: 종이 문서 형식으로 실시간 결과 출력 -->
+      <div class="paper-box" id="result-paper">
+        <div class="paper-header">
+          <span class="paper-title" id="paper-genre-title">학술 발제문 초안</span>
+          <span class="paper-meta" id="paper-date-info">-</span>
+        </div>
+        
+        <!-- 동적으로 줄글이 주입되는 문서 바디 -->
+        <div class="paper-body" id="paper-content">
+          <p class="placeholder-text">
+            왼쪽 입력창에 도서 정보와 문제의식을 입력하고,<br>
+            원하는 글의 성격을 조절한 후 <strong>"발제문 생성"</strong> 버튼을 눌러주세요.
+          </p>
+        </div>
+
+        <!-- 하단 정보 바 및 툴바 -->
+        <div class="paper-footer">
+          <span id="word-count-badge" style="font-size: 0.82rem; color: var(--text-muted);">
+            글자 수: <strong>0</strong>자
+          </span>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" id="btn-copy" class="btn-card-small">복사하기</button>
+            <button type="button" id="btn-reset" class="btn-card-small">초기화</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 저장 목록 관리 영역 -->
+      <div class="card history-section">
+        <h2>저장된 발제문 보관함</h2>
+        <div class="history-list" id="history-list">
+          <!-- script.js가 localStorage 데이터를 읽어 렌더링함 -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 토스트 피드백 알림 팝업 -->
+  <div class="toast" id="toast" role="alert" aria-live="polite">
+    <span id="toast-message"></span>
+  </div>
+
+  <!-- 비즈니스 로직 연동 스크립트 연결 -->
+  <script src="script.js"></script>
+</body>
+</html>
